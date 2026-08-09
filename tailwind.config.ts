@@ -11,7 +11,13 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "1.5rem",
+      padding: {
+        DEFAULT: "1.5rem",
+        sm: "2rem",
+        lg: "4rem",
+        xl: "5rem",
+        "2xl": "6rem",
+      },
       screens: { "2xl": "1320px" },
     },
     extend: {
@@ -37,6 +43,14 @@ const config: Config = {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -50,10 +64,30 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xl: "calc(var(--radius) + 4px)",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "sans-serif"],
         display: ["var(--font-display)", "sans-serif"],
+      },
+      fontSize: {
+        xs: ["0.75rem", { lineHeight: "1.1rem" }],
+        sm: ["0.875rem", { lineHeight: "1.35rem" }],
+        base: ["1rem", { lineHeight: "1.6rem" }],
+        lg: ["1.125rem", { lineHeight: "1.75rem" }],
+        xl: ["1.25rem", { lineHeight: "1.85rem" }],
+        "2xl": ["1.5rem", { lineHeight: "2.1rem", letterSpacing: "-0.01em" }],
+        "3xl": ["1.875rem", { lineHeight: "2.3rem", letterSpacing: "-0.015em" }],
+        "4xl": ["2.25rem", { lineHeight: "2.6rem", letterSpacing: "-0.02em" }],
+        "5xl": ["3rem", { lineHeight: "3.3rem", letterSpacing: "-0.025em" }],
+        "6xl": ["3.75rem", { lineHeight: "4rem", letterSpacing: "-0.03em" }],
+        "7xl": ["4.5rem", { lineHeight: "4.7rem", letterSpacing: "-0.03em" }],
+      },
+      boxShadow: {
+        soft: "var(--shadow-soft)",
+        elevated: "var(--shadow-elevated)",
+        premium: "var(--shadow-premium)",
+        glow: "var(--shadow-glow)",
       },
       keyframes: {
         "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
