@@ -1,92 +1,310 @@
-import { ThemeToggle } from "@/components/theme-toggle";
+"use client";
 
-const SWATCHES = [
-  { className: "bg-primary", label: "Primary" },
-  { className: "bg-secondary", label: "Secondary" },
-  { className: "bg-accent", label: "Accent" },
-  { className: "bg-muted", label: "Muted" },
-  { className: "bg-success", label: "Success" },
-  { className: "bg-warning", label: "Warning" },
-  { className: "bg-destructive", label: "Destructive" },
-] as const;
+import { useState } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  Container,
+  Section,
+  Heading,
+  Badge,
+  Input,
+  Textarea,
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  Skeleton,
+  Spinner,
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+  Breadcrumb,
+  Separator,
+} from "@/components/ui";
+import { useToast } from "@/hooks/use-toast";
 
 export default function HomePage() {
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
   return (
-    <main className="min-h-screen px-6 py-16">
-      <div className="container flex items-center justify-between">
-        <p className="text-caption">Module 3 — Theme System</p>
-        <ThemeToggle />
-      </div>
+    <main className="min-h-screen py-16">
+      <Container>
+        <div className="flex items-center justify-between">
+          <p className="text-caption">Module 4 — Design System</p>
+          <ThemeToggle />
+        </div>
 
-      <div className="container mt-12 space-y-16">
-        <section>
-          <p className="text-h1">DMV Tech Platform</p>
-          <p className="text-body-lg mt-4 max-w-2xl text-muted-foreground">
-            Color system, typography, shadows, and light/dark theming are wired up.
-            The Navbar, Hero, and homepage sections arrive in later modules.
-          </p>
-        </section>
+        <Breadcrumb
+          className="mt-6"
+          items={[{ label: "Home", href: "/" }, { label: "Design System" }]}
+        />
 
-        <section>
-          <p className="text-h3">Color System</p>
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {SWATCHES.map((swatch) => (
-              <div key={swatch.label} className="overflow-hidden rounded-xl border border-border shadow-soft">
-                <div className={`h-20 ${swatch.className}`} />
-                <div className="bg-card p-3">
-                  <p className="text-sm font-medium">{swatch.label}</p>
-                </div>
+        <Heading size="h1" as="h1" className="mt-8">
+          DMV Tech Design System
+        </Heading>
+        <p className="text-body-lg mt-4 max-w-2xl text-muted-foreground">
+          21 reusable, accessible components — the foundation the Navbar, Hero,
+          and homepage sections will be built from in later modules.
+        </p>
+      </Container>
+
+      <Section spacing="sm">
+        <Container>
+          <Heading size="h3">Buttons</Heading>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <Button>Default</Button>
+            <Button variant="accent">Accent</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="link">Link</Button>
+            <Button variant="destructive">Destructive</Button>
+            <Button disabled>Disabled</Button>
+            <Button isLoading={loading} onClick={() => setLoading((v) => !v)}>
+              {loading ? "Loading..." : "Click to load"}
+            </Button>
+            <Button size="icon" aria-label="Icon button">
+              <Spinner size="sm" />
+            </Button>
+          </div>
+        </Container>
+      </Section>
+
+      <Section spacing="sm">
+        <Container>
+          <Heading size="h3">Badges</Heading>
+          <div className="mt-6 flex flex-wrap gap-2">
+            <Badge>Default</Badge>
+            <Badge variant="secondary">Secondary</Badge>
+            <Badge variant="accent">Accent</Badge>
+            <Badge variant="success">Success</Badge>
+            <Badge variant="warning">Warning</Badge>
+            <Badge variant="destructive">Destructive</Badge>
+            <Badge variant="outline">Outline</Badge>
+          </div>
+        </Container>
+      </Section>
+
+      <Section spacing="sm">
+        <Container>
+          <Heading size="h3">Cards</Heading>
+          <div className="mt-6 grid gap-6 sm:grid-cols-3">
+            <Card>
+              <CardHeader>
+                <CardTitle>Network Design</CardTitle>
+                <CardDescription>End-to-end planning and deployment.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Badge variant="success">Live</Badge>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Cloud Migration</CardTitle>
+                <CardDescription>Assessment and architecture support.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Badge variant="secondary">Coming Soon</Badge>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>IT Consulting</CardTitle>
+                <CardDescription>Strategic technology guidance.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Badge variant="success">Live</Badge>
+              </CardContent>
+            </Card>
+          </div>
+        </Container>
+      </Section>
+
+      <Section spacing="sm">
+        <Container size="narrow">
+          <Heading size="h3">Form Elements</Heading>
+          <div className="mt-6 space-y-4 rounded-xl border border-border bg-card p-6 shadow-soft">
+            <Input placeholder="Full name" />
+            <Input placeholder="Invalid email" invalid defaultValue="not-an-email" />
+            <Select>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a service" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="network">Network Design</SelectItem>
+                <SelectItem value="cctv">CCTV Surveillance</SelectItem>
+                <SelectItem value="cloud">Cloud Migration</SelectItem>
+              </SelectContent>
+            </Select>
+            <Textarea placeholder="Tell us about your project" />
+            <Button
+              onClick={() =>
+                toast({ title: "Message sent", description: "We'll be in touch within one business day." })
+              }
+            >
+              Trigger Toast
+            </Button>
+          </div>
+        </Container>
+      </Section>
+
+      <Section spacing="sm">
+        <Container>
+          <Heading size="h3">Overlays</Heading>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline">Open Dialog</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Confirm action</DialogTitle>
+                  <DialogDescription>This is a fully keyboard-accessible modal dialog.</DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline">Cancel</Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button>Confirm</Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+
+            <Drawer>
+              <DrawerTrigger asChild>
+                <Button variant="outline">Open Drawer</Button>
+              </DrawerTrigger>
+              <DrawerContent side="right">
+                <DrawerHeader>
+                  <DrawerTitle>Panel</DrawerTitle>
+                  <DrawerDescription>Slides in from the side, built on the same Dialog primitive.</DrawerDescription>
+                </DrawerHeader>
+              </DrawerContent>
+            </Drawer>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">Open Dropdown</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <DropdownMenuItem>Duplicate</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Delete</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline">Hover for Tooltip</Button>
+              </TooltipTrigger>
+              <TooltipContent>Tooltips use a 200ms open delay.</TooltipContent>
+            </Tooltip>
+          </div>
+        </Container>
+      </Section>
+
+      <Section spacing="sm">
+        <Container size="narrow">
+          <Heading size="h3">Accordion</Heading>
+          <Accordion type="single" collapsible className="mt-6">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>What services does DMV Tech offer today?</AccordionTrigger>
+              <AccordionContent>
+                Network design, AMC support, CCTV, biometric access control, and website development.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>What's coming next?</AccordionTrigger>
+              <AccordionContent>
+                Custom software and cloud migration services, currently in development.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </Container>
+      </Section>
+
+      <Section spacing="sm">
+        <Container size="narrow">
+          <Heading size="h3">Tabs</Heading>
+          <Tabs defaultValue="overview" className="mt-6">
+            <TabsList>
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="details">Details</TabsTrigger>
+            </TabsList>
+            <TabsContent value="overview">
+              <p className="text-body-sm">Overview panel content.</p>
+            </TabsContent>
+            <TabsContent value="details">
+              <p className="text-body-sm">Details panel content.</p>
+            </TabsContent>
+          </Tabs>
+        </Container>
+      </Section>
+
+      <Section spacing="sm">
+        <Container>
+          <Heading size="h3">Avatars, Skeletons &amp; Separator</Heading>
+          <div className="mt-6 flex flex-wrap items-center gap-6">
+            <Avatar>
+              <AvatarImage src="https://example.com/nonexistent.jpg" alt="" />
+              <AvatarFallback>DT</AvatarFallback>
+            </Avatar>
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[200px]" />
+                <Skeleton className="h-4 w-[150px]" />
               </div>
-            ))}
+            </div>
+            <Separator orientation="vertical" className="h-10" />
+            <Spinner label="Loading content" />
           </div>
-        </section>
-
-        <section>
-          <p className="text-h3">Typography</p>
-          <div className="mt-6 space-y-3 rounded-xl border border-border bg-card p-8 shadow-soft">
-            <p className="text-display-1">Display 1</p>
-            <p className="text-display-2">Display 2</p>
-            <p className="text-h1">Heading 1</p>
-            <p className="text-h2">Heading 2</p>
-            <p className="text-h3">Heading 3</p>
-            <p className="text-h4">Heading 4</p>
-            <p className="text-h5">Heading 5</p>
-            <p className="text-h6">Heading 6</p>
-            <p className="text-body-lg">Body large — used for lead paragraphs and intros.</p>
-            <p className="text-body">Body — the default paragraph size across the site.</p>
-            <p className="text-body-sm">Body small — secondary or supporting text.</p>
-            <p className="text-caption">Caption / eyebrow text</p>
-            <p className="text-button">Button label</p>
-          </div>
-        </section>
-
-        <section>
-          <p className="text-h3">Shadows &amp; Surfaces</p>
-          <div className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-4">
-            <div className="flex h-24 items-center justify-center rounded-xl bg-card shadow-soft">
-              <span className="text-body-sm">soft</span>
-            </div>
-            <div className="flex h-24 items-center justify-center rounded-xl bg-card shadow-elevated">
-              <span className="text-body-sm">elevated</span>
-            </div>
-            <div className="flex h-24 items-center justify-center rounded-xl bg-card shadow-premium">
-              <span className="text-body-sm">premium</span>
-            </div>
-            <div className="flex h-24 items-center justify-center rounded-xl bg-card shadow-glow">
-              <span className="text-body-sm">glow</span>
-            </div>
-          </div>
-          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div className="gradient-brand flex h-24 items-center justify-center rounded-xl text-primary-foreground shadow-elevated">
-              <span className="text-button">gradient-brand</span>
-            </div>
-            <div className="glass relative flex h-24 items-center justify-center overflow-hidden rounded-xl">
-              <div className="gradient-brand absolute inset-0 -z-10 opacity-40" />
-              <span className="text-button">.glass effect</span>
-            </div>
-          </div>
-        </section>
-      </div>
+        </Container>
+      </Section>
     </main>
   );
 }
