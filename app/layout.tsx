@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "@/providers";
+import { Navbar } from "@/features/navigation";
 import { themeInitScript } from "@/providers/theme-provider";
 import { seoConfig, siteConfig } from "@/constants";
 
@@ -26,7 +27,12 @@ export default function RootLayout({
         {/* Runs before hydration to apply the correct theme class — prevents
             a flash of the wrong theme on first paint. */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <AppProviders>{children}</AppProviders>
+        <AppProviders>
+          <Navbar />
+          <div id="main-content" tabIndex={-1} className="outline-none">
+            {children}
+          </div>
+        </AppProviders>
       </body>
     </html>
   );

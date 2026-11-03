@@ -1,0 +1,40 @@
+import {
+  BookOpen,
+  Briefcase,
+  Building2,
+  Code,
+  Compass,
+  Factory,
+  FileText,
+  FolderKanban,
+  GraduationCap,
+  HeartPulse,
+  Landmark,
+  Mail,
+  Network,
+  ShieldCheck,
+  ShoppingBag,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
+import type { NavIconName } from "@/types";
+
+/** Maps the string icon keys used in `constants/nav.ts` to concrete icon components. */
+export const NAV_ICONS: Record<NavIconName, LucideIcon> = {
+  network: Network,
+  "shield-check": ShieldCheck,
+  code: Code,
+  compass: Compass,
+  factory: Factory,
+  "graduation-cap": GraduationCap,
+  landmark: Landmark,
+  "heart-pulse": HeartPulse,
+  "shopping-bag": ShoppingBag,
+  briefcase: Briefcase,
+  "book-open": BookOpen,
+  "folder-kanban": FolderKanban,
+  "file-text": FileText,
+  users: Users,
+  building: Building2,
+  mail: Mail,
+};

@@ -19,6 +19,8 @@ export const ROUTES = {
   careers: "/careers",
   career: (slug: string) => `/careers/${slug}`,
   contact: "/contact",
+  /** Same page as `contact`; the intent query lets the Contact module pre-select the quote form. */
+  quote: "/contact?intent=quote",
   privacyPolicy: "/privacy-policy",
   terms: "/terms",
   admin: {

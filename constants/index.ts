@@ -4,6 +4,7 @@ export * from "./company";
 export * from "./contact";
 export * from "./social";
 export * from "./services";
+export * from "./industries";
 export * from "./nav";
 export * from "./seo";
 export * from "./app";
