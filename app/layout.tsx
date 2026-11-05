@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "@/providers";
 import { Navbar } from "@/features/navigation";
+import { SiteFooter } from "@/features/footer";
 import { themeInitScript } from "@/providers/theme-provider";
 import { seoConfig, siteConfig } from "@/constants";
 
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
     template: seoConfig.titleTemplate,
   },
   description: seoConfig.defaultDescription,
+  icons: { icon: seoConfig.ogImage },
 };
 
 export default function RootLayout({
@@ -29,9 +31,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <AppProviders>
           <Navbar />
-          <div id="main-content" tabIndex={-1} className="outline-none">
+          <main id="main-content" tabIndex={-1} className="outline-none">
             {children}
-          </div>
+          </main>
+          <SiteFooter />
         </AppProviders>
       </body>
     </html>

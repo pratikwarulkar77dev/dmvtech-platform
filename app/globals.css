@@ -23,8 +23,8 @@
     --muted-foreground: 215 16% 47%;
 
     /* ---------- Brand: accent (vivid cyan-blue, CTAs and focus states) ---------- */
-    --accent: 199 89% 34%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 221 83% 53%; /* Royal Blue #2563EB — 5.2:1 on white */
+    --accent-foreground: 0 0% 100%;
 
     /* ---------- Semantic ---------- */
     --success: 142 71% 35%;
@@ -37,7 +37,7 @@
     /* ---------- Structure ---------- */
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 199 89% 34%;
+    --ring: 221 83% 53%;
     --radius: 0.75rem;
 
     /* ---------- Shadows (color mixed with theme-aware base hue) ---------- */
@@ -46,6 +46,16 @@
     --shadow-elevated: 0 4px 6px -1px hsl(var(--shadow-color) / 0.07), 0 10px 15px -3px hsl(var(--shadow-color) / 0.06);
     --shadow-premium: 0 20px 40px -12px hsl(var(--shadow-color) / 0.18);
     --shadow-glow: 0 0 24px hsl(var(--accent) / 0.25);
+
+    /* ---------- Hero palette (light-first marketing surfaces) ---------- */
+    --hero-white: 0 0% 100%;
+    --hero-ice: 208 100% 97%; /* #F0F8FF */
+    --hero-sky: 209 100% 93%; /* #DCEEFF */
+    --hero-royal: 221 83% 53%; /* #2563EB */
+    --hero-royal-foreground: 0 0% 100%;
+    --hero-navy: 215 49% 16%; /* #14243B */
+    --hero-cyan: 190 95% 60%;
+    --hero-lavender: 252 90% 88%;
   }
 
   .dark {
@@ -82,6 +92,15 @@
     --shadow-elevated: 0 4px 6px -1px hsl(var(--shadow-color) / 0.5), 0 10px 15px -3px hsl(var(--shadow-color) / 0.45);
     --shadow-premium: 0 20px 40px -12px hsl(var(--shadow-color) / 0.65);
     --shadow-glow: 0 0 32px hsl(var(--accent) / 0.35);
+
+    --hero-white: 222 47% 8%;
+    --hero-ice: 222 47% 7%;
+    --hero-sky: 217 33% 15%;
+    --hero-royal: 217 91% 62%;
+    --hero-royal-foreground: 222 47% 9%;
+    --hero-navy: 210 40% 98%;
+    --hero-cyan: 190 90% 45%;
+    --hero-lavender: 252 60% 45%;
   }
 
   * {

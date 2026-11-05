@@ -2,6 +2,7 @@ export * from "./common";
 export * from "./navigation";
 export * from "./service";
 export * from "./industry";
+export * from "./hero";
 export * from "./company";
 export * from "./contact";
 export * from "./social";

@@ -2,7 +2,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ThemeProvider } from "./theme-provider";
+import { DEFAULT_THEME, ThemeProvider } from "./theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 export function AppProviders({
@@ -11,7 +11,7 @@ export function AppProviders({
   children: ReactNode;
 }) {
   return (
-    <ThemeProvider defaultTheme="system">
+    <ThemeProvider defaultTheme={DEFAULT_THEME}>
       <TooltipProvider delayDuration={200}>
         {children}
       </TooltipProvider>

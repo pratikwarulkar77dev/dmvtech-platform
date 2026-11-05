@@ -1,0 +1,12 @@
+export { ServicesSection } from "./components/services-section";
+export { WhyChooseUs } from "./components/why-choose-us";
+export { IndustriesSection } from "./components/industries-section";
+export { ProcessSection } from "./components/process-section";
+export { TechnologySection } from "./components/technology-section";
+export { TestimonialsSection } from "./components/testimonials-section";
+export { FaqSection } from "./components/faq-section";
+export { ConsultationCta } from "./components/consultation-cta";
+export { HOME_ICONS } from "./lib/home-icons";
+export { processSteps } from "./data/process";
+export type { HomeIconName } from "./types";
+export { commitments } from "./data/testimonials";

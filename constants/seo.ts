@@ -15,5 +15,5 @@ export const seoConfig: SeoConfig = {
     "IT consulting",
   ],
   twitterHandle: "[Twitter Handle – if applicable]",
-  ogImage: "/og-image.jpg",
+  ogImage: "/images/dmv-tech-logo.jpg",
 };

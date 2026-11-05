@@ -12,6 +12,7 @@ export const ROUTES = {
   industry: (slug: string) => `/industries/${slug}`,
   projects: "/projects",
   project: (slug: string) => `/projects/${slug}`,
+  resources: "/resources",
   caseStudies: "/case-studies",
   caseStudy: (slug: string) => `/case-studies/${slug}`,
   blog: "/blog",
@@ -21,8 +22,10 @@ export const ROUTES = {
   contact: "/contact",
   /** Same page as `contact`; the intent query lets the Contact module pre-select the quote form. */
   quote: "/contact?intent=quote",
+  /** Same page as `contact`; the intent query lets the Contact module pre-select a consultation request. */
+  consultation: "/contact?intent=consultation",
   privacyPolicy: "/privacy-policy",
-  terms: "/terms",
+  terms: "/terms-and-conditions",
   admin: {
     root: "/admin",
     login: "/admin/login",

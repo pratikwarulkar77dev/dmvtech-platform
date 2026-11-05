@@ -1,17 +1,18 @@
 import type { ContactInfo } from "@/types";
+import { companyProfile, formatOfficeAddress } from "./company";
 
 /**
- * Bracketed values (e.g. business hours) are not yet confirmed — replace
- * with real data before this ships. Do not fill them with invented values.
+ * Derived from `companyProfile` — edit contact details in constants/company.ts.
+ * Business hours have not been supplied, so none are published.
  */
 export const contactInfo: ContactInfo = {
-  email: "hello@dmvtech.in",
-  phoneDisplay: "[Phone Number – confirm before launch]",
-  phoneHref: "tel:+91XXXXXXXXXX",
-  whatsappNumber: "91XXXXXXXXXX",
-  addresses: [
-    { label: "Lonavla", line: "Lonavla, Maharashtra, India" },
-    { label: "Talegaon Dabhade", line: "Talegaon Dabhade, Maharashtra, India" },
-  ],
-  businessHours: [{ days: "[Business Hours – confirm before launch]", hours: "" }],
+  email: companyProfile.emails.primary,
+  phoneDisplay: companyProfile.phone.display,
+  phoneHref: companyProfile.phone.href,
+  whatsappNumber: companyProfile.whatsapp.digits,
+  addresses: companyProfile.offices.map((office) => ({
+    label: office.label,
+    line: formatOfficeAddress(office),
+  })),
+  businessHours: [],
 };

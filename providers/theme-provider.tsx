@@ -14,6 +14,13 @@ interface ThemeContextValue {
 }
 
 const STORAGE_KEY = "dmvtech-theme";
+
+/**
+ * Theme applied to visitors who have never picked one. The site is designed
+ * light-first; Dark and System only apply after an explicit choice, which is
+ * persisted under STORAGE_KEY.
+ */
+export const DEFAULT_THEME: Theme = "light";
 const ThemeContext = React.createContext<ThemeContextValue | undefined>(undefined);
 
 function getSystemTheme(): ResolvedTheme {
@@ -33,7 +40,7 @@ interface ThemeProviderProps {
   defaultTheme?: Theme;
 }
 
-export function ThemeProvider({ children, defaultTheme = "system" }: ThemeProviderProps) {
+export function ThemeProvider({ children, defaultTheme = DEFAULT_THEME }: ThemeProviderProps) {
   const [theme, setThemeState] = React.useState<Theme>(defaultTheme);
   const [resolvedTheme, setResolvedTheme] = React.useState<ResolvedTheme>("light");
 
@@ -41,8 +48,9 @@ export function ThemeProvider({ children, defaultTheme = "system" }: ThemeProvid
   // layout.tsx has already applied the correct class to <html> before this
   // runs, so there is no visible flash — this just syncs React state to it.
   React.useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
-    const initial = stored ?? defaultTheme;
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    const initial: Theme =
+      stored === "light" || stored === "dark" || stored === "system" ? stored : defaultTheme;
     setThemeState(initial);
     setResolvedTheme(initial === "system" ? getSystemTheme() : initial);
     // Only ever runs once, on mount.
@@ -91,14 +99,14 @@ export function useTheme(): ThemeContextValue {
 /**
  * Inline script source, injected as a blocking <script> in layout.tsx
  * *before* React hydrates. Without this, the page would render in the
- * default (light) theme for a frame and then flash to dark — this runs
+ * default theme for a frame and then flash to the saved one — this runs
  * synchronously during HTML parsing to apply the correct class first.
  */
 export const themeInitScript = `
 (function () {
   try {
     var stored = localStorage.getItem('${STORAGE_KEY}');
-    var theme = stored === 'light' || stored === 'dark' ? stored : 'system';
+    var theme = stored === 'light' || stored === 'dark' || stored === 'system' ? stored : '${DEFAULT_THEME}';
     var resolved = theme === 'system'
       ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
       : theme;

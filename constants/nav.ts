@@ -73,22 +73,16 @@ export const primaryNav: PrimaryNavItem[] = [
     columns: 1,
     items: [
       {
-        label: "Insights",
-        href: ROUTES.blog,
-        description: "Articles on infrastructure, security, and cloud.",
+        label: "Resources Overview",
+        href: ROUTES.resources,
+        description: "Where to start, how we work, and how to reach us.",
         icon: "book-open",
       },
       {
-        label: "Case Studies",
-        href: ROUTES.caseStudies,
-        description: "Problem, approach, and outcome write-ups.",
+        label: "FAQs",
+        href: `${ROUTES.resources}#faq`,
+        description: "Straight answers to common questions.",
         icon: "file-text",
-      },
-      {
-        label: "Projects",
-        href: ROUTES.projects,
-        description: "Selected work and the technology behind it.",
-        icon: "folder-kanban",
       },
     ],
   },
@@ -103,12 +97,6 @@ export const primaryNav: PrimaryNavItem[] = [
         href: ROUTES.about,
         description: "Our story, mission, and approach.",
         icon: "building",
-      },
-      {
-        label: "Careers",
-        href: ROUTES.careers,
-        description: "Open roles and how we work.",
-        icon: "users",
       },
       {
         label: "Contact",
@@ -130,14 +118,14 @@ export const footerNav: Record<string, NavItem[]> = {
   Services: servicesConfig
     .filter((s) => s.availability === "live")
     .map((s) => ({ label: s.title, href: ROUTES.service(s.slug) })),
+  Industries: industriesConfig.map((i) => ({ label: i.title, href: ROUTES.industry(i.slug) })),
   Company: [
     { label: "About Us", href: ROUTES.about },
-    { label: "Careers", href: ROUTES.careers },
-    { label: "Industries", href: ROUTES.industries },
-    { label: "Insights", href: ROUTES.blog },
+    { label: "Contact", href: ROUTES.contact },
+    { label: "Resources", href: ROUTES.resources },
   ],
   Legal: [
     { label: "Privacy Policy", href: ROUTES.privacyPolicy },
-    { label: "Terms of Service", href: ROUTES.terms },
+    { label: "Terms & Conditions", href: ROUTES.terms },
   ],
 };
