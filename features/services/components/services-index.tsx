@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { ROUTES, servicesConfig } from "@/constants";
+import { buildGeneralWhatsAppUrl } from "@/features/enquiry";
 import { HOME_ICONS } from "@/features/home";
 import { PageCta, PageHeader, PageSection } from "@/features/page";
 import { buildContactHref } from "@/utils/contact-links";
@@ -76,7 +77,7 @@ export function ServicesIndex() {
         title="Not sure which service you need?"
         description="Describe your site and your goals. We will recommend a practical starting point."
         primary={{ label: "Get a Free Consultation", href: buildContactHref("consultation") }}
-        secondary={{ label: "Request a Quote", href: buildContactHref("quote") }}
+        secondary={{ label: "Message us on WhatsApp", href: buildGeneralWhatsAppUrl(), external: true }}
       />
     </>
   );

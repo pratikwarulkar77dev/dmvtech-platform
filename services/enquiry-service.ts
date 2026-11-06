@@ -1,7 +1,7 @@
 import { companyProfile } from "@/constants";
-import { getServiceLabel } from "@/features/contact/lib/service-options";
-import type { EnquiryValues } from "@/features/contact/types";
-import { createMailTransport, getMailConfig } from "@/lib/mailer";
+import { ENQUIRY_MODE_LABEL, MESSAGE_COPY } from "@/features/enquiry/constants/enquiry-options";
+import type { EnquiryPayload } from "@/features/enquiry/types/enquiry";
+import { createMailTransport, getMailConfig, getMissingMailSettings } from "@/lib/mailer";
 
 export type SendEnquiryResult =
   | { ok: true }
@@ -22,25 +22,33 @@ const singleLine = (value: string): string => value.replace(/[\r\n]+/g, " ").tri
  * Emails a validated enquiry to the business. Resolves `{ ok: true }` only
  * after the SMTP server has accepted the message.
  */
-export async function sendEnquiryEmail(values: EnquiryValues): Promise<SendEnquiryResult> {
+export async function sendEnquiryEmail({ mode, values }: EnquiryPayload): Promise<SendEnquiryResult> {
   const config = getMailConfig(companyProfile.emails.primary);
-  if (!config) return { ok: false, reason: "not-configured" };
+  if (!config) {
+    // Names only, never values. Visitors never see this. See SMTP_SETUP.md.
+    console.error(`[enquiry] SMTP is not configured. Missing or invalid: ${getMissingMailSettings().join(", ")}`);
+    return { ok: false, reason: "not-configured" };
+  }
 
-  const service = getServiceLabel(values.service);
+  const category = values.category || "Not specified";
   const rows: [string, string][] = [
     ["Name", values.name],
     ["Email", values.email],
-    ["Mobile", values.phone],
-    ["Company", values.company || "—"],
-    ["Service", service],
+    ["Mobile", values.phone || "—"],
+    ["City / location", values.city || "—"],
+    ["Enquiry type", ENQUIRY_MODE_LABEL[mode]],
+    ["Service category", category],
+    ["Quantity", values.quantity || "—"],
+    ["Estimated budget", values.budget || "—"],
   ];
+  const messageLabel = MESSAGE_COPY[mode].label;
 
   const text = [
     "New enquiry from the DMV Tech Services website",
     "",
     ...rows.map(([label, value]) => `${label}: ${value}`),
     "",
-    "Message:",
+    `${messageLabel}:`,
     values.message,
   ].join("\n");
 
@@ -54,7 +62,7 @@ ${rows
   )
   .join("\n")}
 </table>
-<p style="margin:16px 0 4px;font-weight:bold">Message</p>
+<p style="margin:16px 0 4px;font-weight:bold">${escapeHtml(messageLabel)}</p>
 <p style="margin:0;white-space:pre-wrap">${escapeHtml(values.message)}</p>
 </div>`;
 
@@ -65,14 +73,17 @@ ${rows
       to: config.to,
       cc: config.cc,
       replyTo: { name: singleLine(values.name), address: values.email },
-      subject: singleLine(`New website enquiry — ${service} — ${values.name}`),
+      subject: singleLine(`New website enquiry — ${category} — ${values.name}`),
       text,
       html,
     });
     return { ok: true };
   } catch (error) {
     // Logged on the server only; the visitor sees a generic message.
-    console.error("[enquiry] email delivery failed:", error instanceof Error ? error.message : error);
+    // Customer email addresses and credentials are never logged.
+    const err = error as { code?: string; responseCode?: number; message?: string };
+    const reason = (err?.message ?? "unknown error").replace(/[^\s<>"']+@[^\s<>"']+/g, "[address]").slice(0, 200);
+    console.error(`[enquiry] email delivery failed: code=${err?.code ?? "n/a"} smtp=${err?.responseCode ?? "n/a"} reason=${reason}`);
     return { ok: false, reason: "delivery-failed" };
   }
 }

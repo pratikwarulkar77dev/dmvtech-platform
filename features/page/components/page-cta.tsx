@@ -7,7 +7,8 @@ interface PageCtaProps {
   title: string;
   description: string;
   primary: { label: string; href: string };
-  secondary?: { label: string; href: string };
+  /** `external` opens in a new tab (e.g. WhatsApp). */
+  secondary?: { label: string; href: string; external?: boolean };
 }
 
 /** Closing call-to-action band used at the bottom of inner pages. */
@@ -43,7 +44,14 @@ export function PageCta({ title, description, primary, secondary }: PageCtaProps
                 variant="outline"
                 className="border-hero-royal/30 bg-hero-white/70 text-hero-navy hover:border-hero-royal/50 hover:bg-hero-white hover:text-hero-navy"
               >
-                <Link href={secondary.href}>{secondary.label}</Link>
+                {secondary.external ? (
+                  <a href={secondary.href} target="_blank" rel="noopener noreferrer">
+                    {secondary.label}
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                ) : (
+                  <Link href={secondary.href}>{secondary.label}</Link>
+                )}
               </Button>
             )}
           </div>

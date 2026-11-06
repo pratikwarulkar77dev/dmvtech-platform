@@ -9,6 +9,7 @@ import {
   TestimonialsSection,
   WhyChooseUs,
 } from "@/features/home";
+import { SmartEnquirySection } from "@/features/enquiry";
 import { JsonLd } from "@/features/page";
 import { buildPageMetadata } from "@/utils/seo";
 import { buildLocalBusinessJsonLd } from "@/utils/structured-data";
@@ -40,6 +41,7 @@ export default function HomePage() {
       <ProcessSection />
       <TechnologySection />
       <TestimonialsSection />
+      <SmartEnquirySection />
       <FaqSection />
       <ConsultationCta />
     </>

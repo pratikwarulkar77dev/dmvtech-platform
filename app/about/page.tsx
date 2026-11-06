@@ -5,7 +5,7 @@ import { buildPageMetadata } from "@/utils/seo";
 export const metadata: Metadata = buildPageMetadata({
   title: "About Us",
   description:
-    "About DMV Tech Services: our mission, our offices in Lonavla and Akurdi (Pimpri-Chinchwad), and how we work with clients.",
+    "About DMV Tech Services, a family-owned IT services business founded in 2019 by Mohinish Varulkar: our story, founder, expertise, team and locations.",
   path: "/about",
 });
 

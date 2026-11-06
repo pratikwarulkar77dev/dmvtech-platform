@@ -10,3 +10,4 @@ export { HOME_ICONS } from "./lib/home-icons";
 export { processSteps } from "./data/process";
 export type { HomeIconName } from "./types";
 export { commitments } from "./data/testimonials";
+export { SectionHeading } from "./components/section-heading";

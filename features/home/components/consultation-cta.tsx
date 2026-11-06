@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, Mail, MapPin } from "lucide-react";
+import { ArrowRight, Mail, MapPin, MessageCircle } from "lucide-react";
+import { buildGeneralWhatsAppUrl } from "@/features/enquiry";
 import { companyInfo, contactInfo } from "@/constants";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
@@ -62,6 +63,18 @@ export function ConsultationCta() {
                 >
                   <Mail aria-hidden className="h-4 w-4 text-hero-royal" />
                   {contactInfo.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={buildGeneralWhatsAppUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-md font-medium hover:text-hero-royal hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <MessageCircle aria-hidden className="h-4 w-4 text-hero-royal" />
+                  WhatsApp us
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </li>
               <li className="inline-flex items-center gap-2">

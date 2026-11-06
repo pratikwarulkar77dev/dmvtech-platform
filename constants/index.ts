@@ -1,6 +1,7 @@
 export * from "./routes";
 export * from "./site";
 export * from "./company";
+export * from "./founder";
 export * from "./contact";
 export * from "./social";
 export * from "./services";

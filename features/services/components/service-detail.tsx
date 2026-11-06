@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ROUTES, servicesConfig } from "@/constants";
 import { companyProfile } from "@/constants";
+import { buildServiceWhatsAppUrl } from "@/features/enquiry";
 import { JsonLd, PageCta, PageHeader, PageSection } from "@/features/page";
 import { processSteps } from "@/features/home";
 import { HOME_ICONS } from "@/features/home";
@@ -186,7 +187,11 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
           label: comingSoon ? "Ask about this service" : "Get a Free Consultation",
           href: buildContactHref(comingSoon ? "enquiry" : "consultation", service.slug),
         }}
-        secondary={{ label: "All services", href: ROUTES.services }}
+        secondary={{
+          label: "Enquire on WhatsApp",
+          href: buildServiceWhatsAppUrl(service.title, service.slug),
+          external: true,
+        }}
       />
     </>
   );

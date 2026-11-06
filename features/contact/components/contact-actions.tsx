@@ -1,10 +1,11 @@
 import { Mail, MessageCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { companyProfile } from "@/constants";
+import { buildGeneralWhatsAppUrl } from "@/features/enquiry";
 
 /** Direct Call, WhatsApp and Email actions, all built from the central company profile. */
 export function ContactActions() {
-  const { phone, whatsapp, emails } = companyProfile;
+  const { phone, emails } = companyProfile;
   return (
     <ul className="grid gap-4 sm:grid-cols-3">
       <li>
@@ -17,7 +18,7 @@ export function ContactActions() {
       </li>
       <li>
         <Button asChild size="lg" variant="outline" className="w-full border-hero-royal/30 text-hero-navy hover:bg-hero-sky hover:text-hero-navy">
-          <a href={whatsapp.href} target="_blank" rel="noopener noreferrer">
+          <a href={buildGeneralWhatsAppUrl()} target="_blank" rel="noopener noreferrer">
             <MessageCircle aria-hidden className="h-5 w-5" />
             WhatsApp us
             <span className="sr-only"> (opens in a new tab)</span>

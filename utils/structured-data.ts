@@ -42,6 +42,7 @@ export function buildLocalBusinessJsonLd() {
     email: companyProfile.emails.primary,
     taxID: companyProfile.gstin,
     foundingDate: String(companyInfo.foundedYear),
+    founder: { "@type": "Person", name: companyInfo.founderName, jobTitle: "Founder" },
     ...(registered ? { address: postalAddress(registered) } : {}),
     location: [registered, ...others].filter(Boolean).map((office) => ({
       "@type": "Place",

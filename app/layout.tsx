@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "@/providers";
 import { Navbar } from "@/features/navigation";
+import { FloatingWhatsAppButton } from "@/features/enquiry";
 import { SiteFooter } from "@/features/footer";
 import { themeInitScript } from "@/providers/theme-provider";
 import { seoConfig, siteConfig } from "@/constants";
@@ -35,6 +36,7 @@ export default function RootLayout({
             {children}
           </main>
           <SiteFooter />
+          <FloatingWhatsAppButton />
         </AppProviders>
       </body>
     </html>

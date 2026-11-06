@@ -2,8 +2,9 @@
 
 import { headers } from "next/headers";
 import { RATE_LIMIT, companyProfile } from "@/constants";
-import { cleanEnquiry, validateEnquiry } from "@/features/contact/lib/validation";
-import type { EnquiryActionState, EnquiryValues } from "@/features/contact/types";
+import { ENQUIRY_MODE_IDS } from "@/features/enquiry/constants/enquiry-options";
+import type { EnquiryActionState, EnquiryFormValues, EnquiryMode } from "@/features/enquiry/types/enquiry";
+import { cleanEnquiryValues, validateEnquiry } from "@/features/enquiry/utils/validation";
 import { sendEnquiryEmail } from "@/services/enquiry-service";
 
 /** Forms submitted faster than this after first render are treated as automated. */
@@ -37,18 +38,24 @@ const field = (data: FormData, name: string): string => {
   return typeof value === "string" ? value : "";
 };
 
-const FAILURE_CONTACT = `Please call ${companyProfile.phone.display} or message us on WhatsApp instead.`;
+const ALTERNATIVES = `You can still contact our team through WhatsApp or call ${companyProfile.phone.display}.`;
 
 export async function submitEnquiry(
   _previous: EnquiryActionState,
   formData: FormData
 ): Promise<EnquiryActionState> {
-  const values: EnquiryValues = cleanEnquiry({
+  const rawMode = field(formData, "enquiryType");
+  const mode: EnquiryMode = (ENQUIRY_MODE_IDS as readonly string[]).includes(rawMode)
+    ? (rawMode as EnquiryMode)
+    : "general";
+  const values: EnquiryFormValues = cleanEnquiryValues({
     name: field(formData, "name"),
-    email: field(formData, "email"),
     phone: field(formData, "phone"),
-    company: field(formData, "company"),
-    service: field(formData, "service"),
+    email: field(formData, "email"),
+    city: field(formData, "city"),
+    category: field(formData, "category"),
+    quantity: field(formData, "quantity"),
+    budget: field(formData, "budget"),
     message: field(formData, "message"),
   });
 
@@ -66,6 +73,7 @@ export async function submitEnquiry(
       status: "error",
       message: "We could not verify this submission. Please wait a moment and try again.",
       values,
+      mode,
     };
   }
 
@@ -79,34 +87,42 @@ export async function submitEnquiry(
       status: "error",
       message: "Too many submissions in a short time. Please wait a minute and try again.",
       values,
+      mode,
     };
   }
 
-  const fieldErrors = validateEnquiry(values);
+  const fieldErrors = validateEnquiry(values, "email");
   if (Object.keys(fieldErrors).length > 0) {
     return {
       status: "error",
       message: "Please correct the highlighted fields and try again.",
       fieldErrors,
       values,
+      mode,
     };
   }
 
-  const result = await sendEnquiryEmail(values);
+  const result = await sendEnquiryEmail({ mode, values });
   if (!result.ok) {
-    return {
-      status: "error",
-      message:
-        result.reason === "not-configured"
-          ? `Our enquiry form is not available right now, and your message has not been sent. ${FAILURE_CONTACT}`
-          : `We could not send your message, so it has not been delivered. Please try again shortly. ${FAILURE_CONTACT}`,
-      values,
-    };
+    // Diagnostics are logged server-side only (see services/enquiry-service.ts); visitors get a friendly message.
+    return result.reason === "not-configured"
+      ? {
+          status: "error",
+          emailUnavailable: true,
+          message: `Email enquiries are temporarily unavailable. Please contact us through WhatsApp or call ${companyProfile.phone.display}.`,
+          values,
+          mode,
+        }
+      : {
+          status: "error",
+          message: `We could not send your email, so it has not been delivered. Please try again shortly. ${ALTERNATIVES}`,
+          values,
+          mode,
+        };
   }
 
   return {
     status: "success",
-    message: "Thank you. Your enquiry has been sent and our team will get back to you soon.",
+    message: "Thank you. Your enquiry has been emailed to our team and we will get back to you soon.",
   };
 }
-
