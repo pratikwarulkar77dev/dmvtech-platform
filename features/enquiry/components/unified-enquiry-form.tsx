@@ -104,7 +104,7 @@ export function UnifiedEnquiryForm({ headingId, initialMode = "recommendation", 
 
   /** Validates for the chosen channel; focuses the first problem. Returns true when OK. */
   function check(channel: "whatsapp" | "email"): boolean {
-    const found = validateEnquiry(values, channel);
+    const found = validateEnquiry(mode, values, channel);
     if (Object.keys(found).length === 0) {
       setClientErrors({});
       setFormError("");
@@ -163,6 +163,11 @@ export function UnifiedEnquiryForm({ headingId, initialMode = "recommendation", 
         className="mx-auto mt-6 max-w-4xl rounded-3xl border border-border bg-card p-6 shadow-premium sm:p-8"
       >
         <input type="hidden" name="enquiryType" value={mode} />
+        {/* Ensure every mode-specific value is submitted to the server. */}
+        <input type="hidden" name="configuration" value={values.configuration} />
+        <input type="hidden" name="usage" value={values.usage} />
+        <input type="hidden" name="additional" value={values.additional} />
+
 
         <div key={mode} className="animate-fade-up opacity-0 motion-reduce:animate-none motion-reduce:opacity-100">
           <div className="grid gap-5 sm:grid-cols-2">
@@ -179,13 +184,16 @@ export function UnifiedEnquiryForm({ headingId, initialMode = "recommendation", 
             )}
             <TextAreaField
               {...groupProps}
-              field="message"
+              field={mode === "configuration" ? "configuration" : mode === "recommendation" ? "usage" : "message"}
               label={copy.label}
               required
               hint={copy.hint}
               placeholder={copy.placeholder}
               className="sm:col-span-2"
             />
+            {mode !== "general" && (
+              <TextAreaField {...groupProps} field="additional" label="Additional requirements" rows={3} className="sm:col-span-2" />
+            )}
           </div>
         </div>
 

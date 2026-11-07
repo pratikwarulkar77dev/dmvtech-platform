@@ -175,3 +175,17 @@ export function CategoryField({ values, errors, onChange }: FieldGroupProps) {
     </FieldShell>
   );
 }
+
+export type ModeFormProps = FieldGroupProps;
+
+/** Shared customer details for the three WhatsApp enquiry modes. */
+export function CommonFields(props: ModeFormProps) {
+  return (
+    <>
+      <TextField {...props} field="name" label="Full name" required autoComplete="name" />
+      <TextField {...props} field="phone" label="Mobile number" type="tel" autoComplete="tel" placeholder="10-digit mobile number" />
+      <TextField {...props} field="city" label="City / location" autoComplete="address-level2" />
+      <div className="sm:col-span-2"><CategoryField {...props} /></div>
+    </>
+  );
+}

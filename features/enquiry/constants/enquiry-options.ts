@@ -21,6 +21,8 @@ export const ENQUIRY_MODES: readonly EnquiryModeOption[] = [
   },
 ];
 
+export const ENQUIRY_MODE_IDS = ENQUIRY_MODES.map((mode) => mode.id);
+
 export const ENQUIRY_MODE_LABEL: Record<EnquiryMode, string> = {
   configuration: "I Know My Configuration",
   recommendation: "Recommend a Solution",
@@ -57,6 +59,7 @@ export const CATEGORY_BY_SERVICE_SLUG: Record<string, EnquiryCategory> = {
 /** Input limits keep the resulting WhatsApp link a reasonable length. */
 export const ENQUIRY_LIMITS: Record<EnquiryField, number> = {
   name: 80,
+  email: 254,
   phone: 20,
   city: 80,
   category: 60,
@@ -73,6 +76,7 @@ export const MAX_ENCODED_MESSAGE_LENGTH = 2000;
 
 export const EMPTY_ENQUIRY_VALUES: EnquiryFormValues = {
   name: "",
+  email: "",
   phone: "",
   city: "",
   category: "",
@@ -89,4 +93,24 @@ export const REQUIRED_FIELDS: Record<EnquiryMode, readonly EnquiryField[]> = {
   configuration: ["name", "configuration"],
   recommendation: ["name", "usage"],
   general: ["name", "message"],
+};
+
+export const MODES_WITH_QUANTITY_AND_BUDGET: readonly EnquiryMode[] = ["configuration", "recommendation"];
+
+export const MESSAGE_COPY: Record<EnquiryMode, { label: string; hint: string; placeholder: string }> = {
+  configuration: {
+    label: "Required configuration",
+    hint: "Describe the specifications you need.",
+    placeholder: "e.g. Five i5 desktops, 16GB RAM, 512GB SSD",
+  },
+  recommendation: {
+    label: "Intended usage",
+    hint: "Tell us how you will use the solution.",
+    placeholder: "e.g. Computers for accounting and billing",
+  },
+  general: {
+    label: "Your message",
+    hint: "Tell us how we can help.",
+    placeholder: "e.g. I need CCTV installation for my office",
+  },
 };

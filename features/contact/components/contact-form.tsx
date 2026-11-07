@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
-import { submitEnquiry } from "@/actions/submit-enquiry";
+import { submitContactEnquiry } from "@/actions/submit-contact-enquiry";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -78,7 +78,10 @@ export function ContactForm() {
   const presetService = searchParams.get("service") ?? "";
   const copy = INTENT_COPY[intent] ?? DEFAULT_COPY;
 
-  const [state, formAction, pending] = useActionState(submitEnquiry, INITIAL_ENQUIRY_STATE);
+const [state, formAction, pending] = useActionState(
+  submitContactEnquiry,
+  INITIAL_ENQUIRY_STATE
+);
   const [values, setValues] = useState<EnquiryValues>(EMPTY_VALUES);
   const [clientErrors, setClientErrors] = useState<EnquiryErrors>({});
   const [startedAt, setStartedAt] = useState("");

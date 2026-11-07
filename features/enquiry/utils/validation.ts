@@ -1,4 +1,4 @@
-import { ENQUIRY_LIMITS, REQUIRED_FIELDS } from "../constants/enquiry-options";
+import { ENQUIRY_LIMITS, REQUIRED_FIELDS, EMPTY_ENQUIRY_VALUES } from "../constants/enquiry-options";
 import type { EnquiryField, EnquiryFormErrors, EnquiryFormValues, EnquiryMode } from "../types/enquiry";
 
 /** Reduces an Indian mobile number to 10 digits (accepts +91 / 91 / 0 prefixes, spaces and dashes). Returns "" if invalid. */
@@ -12,17 +12,23 @@ export function normalizeMobile(raw: string): string {
 
 const REQUIRED_MESSAGES: Partial<Record<EnquiryField, string>> = {
   name: "Please enter your name.",
+  email: "Please enter your email address.",
   configuration: "Please describe the configuration you need.",
   usage: "Please tell us how you plan to use it.",
   message: "Please enter your message.",
 };
 
 /** Validates only the fields relevant to the selected mode. */
-export function validateEnquiry(mode: EnquiryMode, values: EnquiryFormValues): EnquiryFormErrors {
+export function validateEnquiry(mode: EnquiryMode, values: EnquiryFormValues, channel: "whatsapp" | "email" = "whatsapp"): EnquiryFormErrors {
   const errors: EnquiryFormErrors = {};
 
   for (const field of REQUIRED_FIELDS[mode]) {
     if (values[field].trim().length === 0) errors[field] = REQUIRED_MESSAGES[field] ?? "This field is required.";
+  }
+
+  if (channel === "email") {
+    if (!values.email.trim()) errors.email = REQUIRED_MESSAGES.email;
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) errors.email = "Enter a valid email address.";
   }
 
   if (values.phone.trim() && !normalizeMobile(values.phone)) {
@@ -36,4 +42,14 @@ export function validateEnquiry(mode: EnquiryMode, values: EnquiryFormValues): E
   }
 
   return errors;
+}
+
+/** Normalize only known fields and apply per-field length limits on the server. */
+export function cleanEnquiryValues(raw: Partial<Record<EnquiryField, string>>): EnquiryFormValues {
+  const result = { ...EMPTY_ENQUIRY_VALUES };
+  for (const key of Object.keys(result) as EnquiryField[]) {
+    const value = typeof raw[key] === "string" ? raw[key]! : "";
+    result[key] = value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim();
+  }
+  return result;
 }
