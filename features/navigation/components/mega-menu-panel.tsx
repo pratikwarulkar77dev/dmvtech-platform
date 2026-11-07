@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -48,11 +49,12 @@ export function MegaMenuPanel({ item, pathname }: MegaMenuPanelProps) {
           </Link>
         </div>
 
-        <aside className="flex flex-col justify-between rounded-xl border border-border bg-card p-6 shadow-soft">
+        <aside className="flex flex-col self-start rounded-xl border border-border bg-card p-6 shadow-soft">
           <div>
             <p className="text-h5">{item.featured.title}</p>
             <p className="text-body-sm mt-2">{item.featured.description}</p>
           </div>
+
           <Button asChild variant="accent" className="mt-6 w-full">
             <Link href={item.featured.cta.href}>
               {item.featured.cta.label}
